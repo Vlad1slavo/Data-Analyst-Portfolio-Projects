@@ -1,16 +1,16 @@
 
 Select *
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 order by 3,4
 
 Select *
-From PortfolioProject..CovidVaccinations
+From covid..CovidVaccinations
 order by 3,4
 
 --Select Data that we are going to be using
 
 Select location, date, total_cases, new_cases, total_deaths, population
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 order by 1,2
 
 
@@ -21,7 +21,7 @@ SELECT
         WHEN total_cases = 0 THEN 0
         ELSE (total_deaths / total_cases) * 100
     END AS DeathPercentage
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 Where location like '%raine%'
 order by 5 DESC
 
@@ -29,7 +29,7 @@ order by 5 DESC
 -- Shows what percentage of population got Covid
 SELECT 
     location, date, population, total_cases, (total_cases/population)*100 as CasePercentage
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 Where location='Ukraine'
 order by 5 DESC
 
@@ -37,7 +37,7 @@ order by 5 DESC
 
 SELECT 
     location, population, MAX(total_cases) as HighestInfectionCount, MAX((total_cases/population))*100 as PercentPopulationInfected
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 Group by location, population
 order by PercentPopulationInfected DESC
 
@@ -46,7 +46,7 @@ order by PercentPopulationInfected DESC
 
 SELECT 
     location, MAX(cast(total_deaths as int)) as TotalDeathCount
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 Where continent is not null
 Group by location
 order by TotalDeathCount DESC
@@ -57,7 +57,7 @@ order by TotalDeathCount DESC
 
 SELECT 
     continent, MAX(cast(total_deaths as int)) as TotalDeathCount
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 Where continent is not null
 Group by continent
 order by TotalDeathCount DESC
@@ -70,7 +70,7 @@ SELECT
         WHEN SUM(new_cases) = 0 THEN 0
         ELSE (SUM(cast(new_deaths as int)) / SUM(new_cases)) * 100
     END AS DeathPercentage
-From PortfolioProject..CovidDeaths
+From covid..CovidDeaths
 Where continent is not null
 order by 1,2
 
@@ -85,9 +85,9 @@ Select
         OVER (Partition by dea.location Order by dea.location, dea.date) as RollingPeopleVaccinated
 	--(RollingPeopleVaccinated/population)*100
 From 
-    PortfolioProject..CovidDeaths dea
+    covid..CovidDeaths dea
 Join 
-    PortfolioProject..CovidVaccinations vac
+    covid..CovidVaccinations vac
     On dea.location = vac.location
     and dea.date = vac.date
 Where 
@@ -109,9 +109,9 @@ Select
         OVER (Partition by dea.location Order by dea.location, dea.date) as RollingPeopleVaccinated
 	--(RollingPeopleVaccinated/vac.population)*100
 From 
-    PortfolioProject..CovidDeaths dea
+    covid..CovidDeaths dea
 Join 
-    PortfolioProject..CovidVaccinations vac
+    covid..CovidVaccinations vac
     On dea.location = vac.location
     and dea.date = vac.date
 Where 
@@ -142,9 +142,9 @@ Select
         OVER (Partition by dea.location Order by dea.location, dea.date) as RollingPeopleVaccinated
 	--(RollingPeopleVaccinated/vac.population)*100
 From 
-    PortfolioProject..CovidDeaths dea
+    covid..CovidDeaths dea
 Join 
-    PortfolioProject..CovidVaccinations vac
+    covid..CovidVaccinations vac
     On dea.location = vac.location
     and dea.date = vac.date
 Where 
@@ -166,9 +166,9 @@ Select
         OVER (Partition by dea.location Order by dea.location, dea.date) as RollingPeopleVaccinated
 	--(RollingPeopleVaccinated/vac.population)*100
 From 
-    PortfolioProject..CovidDeaths dea
+    covid..CovidDeaths dea
 Join 
-    PortfolioProject..CovidVaccinations vac
+    covid..CovidVaccinations vac
     On dea.location = vac.location
     and dea.date = vac.date
 Where 
